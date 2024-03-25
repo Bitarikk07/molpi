@@ -11,7 +11,7 @@
                 @include('shared.form-molpi')
                 <div class="mt-3">
                     <div class="d-flex align-items-center  gap-2">
-                        <p class="text text-secondary">Текущая сортировка:</p>
+                        <p class="text  ">Текущая сортировка:</p>
                         @if ($orderBy === 'recent')
                             <p class="text text-warning"> Последние</p>
                         @elseif($orderBy === 'old')

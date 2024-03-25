@@ -38,12 +38,12 @@
                                 <small class="fs-6 text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="remember-me" class="text-dark"></label><br>
-                            <input type="submit" name="submit" class="btn btn-dark btn-md" value="Отправить">
-                        </div>
-                        <div class="text-right mt-2">
-                            <a href="/login" class="text-dark">Уже есть аккаунт? </a>
+                        <div class="form-group d-flex align-items-center gap-3 mt-3">
+                            {{-- <label for="remember-me" class="text-dark"></label><br> --}}
+                            <button type="submit" name="submit" class="btn btn-secondary">Зарегестрироваться</button>
+                            <div class="text-right ">
+                                <a href="/login" class="text-dark">Уже есть аккаунт? </a>
+                            </div>
                         </div>
                     </form>
                 </div>

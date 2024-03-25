@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav d-flex align-items-center">
                 @guest
 
                     <li class="nav-item">
@@ -30,7 +30,7 @@
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
-                            <button class="btn btn-danger btn-sm" type="submit">Выйти</button>
+                            <button class="btn btn-outline-danger btn-sm" type="submit">Выйти</button>
                         </form>
                     </li>
                 @endauth

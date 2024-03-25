@@ -10,7 +10,7 @@
                 @enderror
             </div>
             <div class="">
-                <button type="submit" class="btn btn-dark"> Опубликовать </button>
+                <button type="submit" class="btn btn-dark btn-sm"> Опубликовать </button>
 
             </div>
         </form>
@@ -19,4 +19,4 @@
 @guest()
     <h4>Login To Share yours ideas </h4>
 @endguest
-<div class="">@include('shared.filter')</div>
+<div class="mt-5">@include('shared.filter')</div>

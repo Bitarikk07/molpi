@@ -23,7 +23,9 @@
                         <a href="{{ route('ideas.show', $idea->id) }}">View</a>
                     @endif
                     @if (auth()->id() !== $idea->user_id)
-                    @else<button class="m-2 btn btn-danger btn-sm ">x</button>
+                    @else
+                        <button class="m-2 btn btn-danger btn-sm "
+                            onclick="return confirm('Вы точно хотите удалить идею?')">x</button>
                     @endif
                 </form>
             </div>

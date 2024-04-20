@@ -2,8 +2,17 @@
     <div class="px-3 pt-4 pb-2">
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
-                <img style="width:50px" class="me-2 avatar-sm rounded-circle" src="{{ $idea->user->getImageUrl() }}"
-                    alt=" {{ $idea->user->name }}">
+                @if ($idea->user->getImageUrl())
+                    <div class="me-3 avatar-sm rounded-circle"
+                        style="background-image: url({{ $idea->user->getImageUrl() }});width:40px; height: 40px; background-position: center;
+                background-size: cover;    border: 2px solid #fff;"
+                        alt="{{ $idea->user->name }}">
+                    </div>
+                @else
+                    <img style="width:150px" class="me-3 avatar-sm rounded-circle" src="{{ $user->getImageUrl() }}"
+                        alt="{{ $idea->user->name }}">
+                @endif
+
                 <div>
                     <h5 class="card-title mb-0"><a href="{{ route('users.show', $idea->user->id) }}">
                             {{ $idea->user->name }}
@@ -14,19 +23,22 @@
                 <form action="{{ route('ideas.destroy', $idea->id) }}" method="post">
                     @csrf
                     @method('delete')
-                    @if (auth()->id() !== $idea->user_id)
-                    @else
+
+
+                    @can('update', $idea)
                         <a href="{{ route('ideas.edit', $idea->id) }}">Edit</a>
-                    @endif
+                    @endcan
+
                     @if ($view ?? false)
                     @else
                         <a href="{{ route('ideas.show', $idea->id) }}">View</a>
                     @endif
-                    @if (auth()->id() !== $idea->user_id)
-                    @else
+
+
+                    @can('update', $idea)
                         <button class="m-2 btn btn-danger btn-sm "
                             onclick="return confirm('Вы точно хотите удалить идею?')">x</button>
-                    @endif
+                    @endcan
                 </form>
             </div>
         </div>
@@ -56,7 +68,7 @@
             @include('users.puts.like')
             <div>
                 <span class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span>
-                    {{ $idea->created_at }} </span>
+                    {{ $idea->created_at->diffForHumans() }} </span>
             </div>
         </div>
         @include('shared.comments')

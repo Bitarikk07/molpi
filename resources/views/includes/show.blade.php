@@ -9,7 +9,6 @@
             <div class="col-6">
                 @include('shared.success-mess')
                 <div class="mt-3">
-
                     @include('shared.card')
                 </div>
             </div>

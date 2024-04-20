@@ -26,18 +26,16 @@ class IdeaController extends Controller
     {
         ///Validation 
         //if this user not autor this post he can't delete this post
-        if (auth()->id() !== $idea->user_id) {
-            ///and this function show him 404 page
-            abort(404);
-        }
+        $this->authorize('idea.delete', $idea);
+
         ///This validation for if idea not found in db , in page show error message
-        elseif (!$idea) {
-            return redirect('/')->with('error', 'Idea not found');
-        }
+        // elseif (!$idea) {
+        //     return redirect('/')->with('error', 'Idea not found');
+        // }
         ///if he is autor this post , he can delete this post
-        elseif (auth()->id() == $idea->user_id) {
-            $idea->delete();
-        }
+
+        $idea->delete();
+
 
         return redirect('/')->with('message', 'Idea Deleted');
     }
@@ -50,11 +48,10 @@ class IdeaController extends Controller
     ///Show editing form in page
     public function edit(Idea $idea)
     {
-        ///Validation 
-        //if this user not autor this post he can't delete this post
-        if (auth()->id() !== $idea->user_id) {
-            abort(404);
-        }
+        $this->authorize('update', $idea);
+
+
+
         ///If editing true , in page show form area
         $editing = true;
         return view('includes.show', compact('idea', 'editing'));
@@ -62,9 +59,7 @@ class IdeaController extends Controller
     ///Update content in this post
     public function update(Idea $idea)
     {
-        if (auth()->id() !== $idea->user_id) {
-            abort(404);
-        }
+        $this->authorize('update', $idea);
         $request = request()->validate([
             'content' => 'required|min:2|max:240',
         ]);

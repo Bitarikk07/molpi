@@ -20,15 +20,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        if (auth()->id() !== $user->id) {
-            abort(404);
-        }
+        // dd($user->id);
+        $this->authorize('update', $user);
         $editing = true;
         $ideas = $user->ideas()->paginate(5);
         return view('users.show', compact('user', 'ideas', 'editing'));
     }
     public function update(User $user)
     {
+        $this->authorize('update', $user);
 
         $request = request()->validate([
             'name' => 'required|min:2|max:40',
@@ -44,7 +44,14 @@ class UserController extends Controller
         }
 
         $user->update($request);
-        return redirect()->route('profile')->with('message', 'Profile Successfully updated');
+        if ($user->id === auth()->user()) {
+            return redirect()->route('profile')->with('message', 'Profile Successfully updated');
+        } elseif (auth()->user()->is_admin) {
+            return redirect()->route('users.show', $user->id)->with('message', "Profile  userid:$user->id  Successfully  updated");
+        } else {
+            return redirect()->route('profile')->with('message', 'Profile Successfully updated');
+
+        }
     }
     public function profile(User $user)
     {

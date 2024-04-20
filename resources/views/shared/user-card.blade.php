@@ -6,8 +6,17 @@
             <div class="px-3 pt-4 pb-2">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
-                        <img style="width:150px" class="me-3 avatar-sm rounded-circle" src="{{ $user->getImageUrl() }}"
-                            alt="{{ $user->name }}">
+                        @if ($user->getImageUrl())
+                            <div class="me-3 avatar-sm rounded-circle"
+                                style="background-image: url({{ $user->getImageUrl() }});width:150px; height: 150px; background-position: center;
+                                background-size: cover;    border: 2px solid #fff;"
+                                alt="{{ $user->name }}">
+                            </div>
+                        @else
+                            <img style="width:150px" class="me-3 avatar-sm rounded-circle"
+                                src="{{ $user->getImageUrl() }}" alt="{{ $user->name }}">
+                        @endif
+
                         <div>
                             @if ($editing ?? false)
                                 <input name="name" value="{{ $user->name }}" type="text" class="form-control">
@@ -25,9 +34,9 @@
                         @if ($editing ?? false)
                         @else
                             @auth
-                                @if (Auth::id() === $user->id)
+                                @can('update', $user)
                                     <a href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                @endif
+                                @endcan
                             @endauth
                         @endif
                     </div>
@@ -82,6 +91,8 @@
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm"> Unfollow </button>
                         </form>
+                    @elseif(Auth::user()->is_admin)
+                        <h2 class="text-danger">admin can't follow</h2>
                     @else
                         <form method="post" action="{{ route('users.follow', $user->id) }}">
                             @csrf
@@ -109,3 +120,4 @@
 @endif
 </div>
 </div>
+<script></script>
